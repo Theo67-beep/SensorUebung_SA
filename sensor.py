@@ -1,4 +1,4 @@
-#Hallo"""
+"""
 SensorPy – Messdaten analysieren
 =================================
 Dieses Modul enthält alle Funktionen zur Analyse von Umweltmessdaten.
