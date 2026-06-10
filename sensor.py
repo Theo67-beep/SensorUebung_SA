@@ -1,4 +1,4 @@
-#Hallo"""
+"""
 SensorPy – Messdaten analysieren
 =================================
 Dieses Modul enthält alle Funktionen zur Analyse von Umweltmessdaten.
@@ -191,5 +191,3 @@ def generate_report(data: list[dict]) -> str:
     """
     # TODO: Implementierung hier einfügen
     pass
-
-Hallo Theo
