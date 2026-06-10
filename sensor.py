@@ -192,3 +192,4 @@ def generate_report(data: list[dict]) -> str:
     # TODO: Implementierung hier einfügen
     pass
 
+Hallo Theo
