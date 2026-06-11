@@ -41,22 +41,8 @@ def load_data(filename: str) -> list[dict]:
 
 
 def calculate_average(values: list[float]) -> float:
-    """Berechnet den Durchschnitt einer Liste von Zahlen.
-
-    Args:
-        values: Liste mit float-Werten (darf nicht leer sein)
-
-    Returns:
-        Arithmetisches Mittel aller Werte, gerundet auf 2 Dezimalstellen.
-
-    Beispiel:
-        >>> calculate_average([10.0, 20.0, 30.0])
-        20.0
-        >>> calculate_average([19.2, 21.4, 24.7])
-        21.77
-    """
-    # TODO: Implementierung hier einfügen
-    pass
+    """Durchschnitt, gerundet auf 2 Dezimalstellen."""
+    return round(sum(values) / len(values), 2)
 
 
 def find_extremes(values: list[float]) -> tuple[float, float]:
