@@ -50,21 +50,8 @@ def find_extremes(values: list[float]) -> tuple[float, float]:
     return (min(values), max(values))
 
 def count_above_threshold(values: list[float], threshold: float) -> int:
-    """Zählt, wie viele Werte in der Liste den Schwellenwert überschreiten.
-
-    Args:
-        values:    Liste mit float-Werten
-        threshold: Schwellenwert (Werte > threshold werden gezählt)
-
-    Returns:
-        Anzahl der Werte, die strikt grösser als threshold sind.
-
-    Beispiel:
-        >>> count_above_threshold([19.2, 27.1, 24.7, 33.2, 21.4], 25.0)
-        2
-    """
-    # TODO: Implementierung hier einfügen
-    pass
+    """Anzahl der Werte strikt grösser als threshold."""
+    return sum(1 for v in values if v > threshold)
 
 
 # ──────────────────────────────────────────────────────────────
