@@ -46,21 +46,8 @@ def calculate_average(values: list[float]) -> float:
 
 
 def find_extremes(values: list[float]) -> tuple[float, float]:
-    """Findet den kleinsten und grössten Wert einer Liste.
-
-    Args:
-        values: Liste mit float-Werten (darf nicht leer sein)
-
-    Returns:
-        Tupel (minimum, maximum)
-
-    Beispiel:
-        >>> find_extremes([19.2, 21.4, 24.7, 17.5])
-        (17.5, 24.7)
-    """
-    # TODO: Implementierung hier einfügen
-    pass
-
+    """Gibt (min, max) zurück."""
+    return (min(values), max(values))
 
 def count_above_threshold(values: list[float], threshold: float) -> int:
     """Zählt, wie viele Werte in der Liste den Schwellenwert überschreiten.
