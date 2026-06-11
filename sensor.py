@@ -107,89 +107,54 @@ def count_above_threshold(values: list[float], threshold: float) -> int:
 # ──────────────────────────────────────────────────────────────
 
 def classify_value(value: float, limits: dict) -> str:
-    """Klassifiziert einen Messwert anhand von Grenzwerten.
-
-    Die limits-dict hat folgende Struktur:
-        {
-            "niedrig":  <obere Grenze für "niedrig">,
-            "normal":   <obere Grenze für "normal">,
-            "hoch":     <obere Grenze für "hoch">
-            # alles darüber gilt als "kritisch"
-        }
-
-    Args:
-        value:  Der zu klassifizierende Messwert
-        limits: Dict mit den Grenzwerten (siehe oben)
-
-    Returns:
-        Einen der folgenden Strings: "niedrig", "normal", "hoch", "kritisch"
-
-    Beispiel (Temperatur-Grenzen: niedrig<18, normal<26, hoch<32):
-        >>> grenzen = {"niedrig": 18.0, "normal": 26.0, "hoch": 32.0}
-        >>> classify_value(15.0, grenzen)
-        'niedrig'
-        >>> classify_value(22.0, grenzen)
-        'normal'
-        >>> classify_value(28.5, grenzen)
-        'hoch'
-        >>> classify_value(35.0, grenzen)
-        'kritisch'
-    """
-    # TODO: Implementierung hier einfügen
-    pass
+    if value < limits["niedrig"]:
+        return "niedrig"
+    elif value < limits["normal"]:
+        return "normal"
+    elif value < limits["hoch"]:
+        return "hoch"
+    else:
+        return "kritisch"
 
 
 def filter_by_sensor(data: list[dict], sensor_id: str) -> list[dict]:
-    """Filtert die Messdaten nach einer bestimmten Sensor-ID.
-
-    Args:
-        data:      Liste von Messdaten-dicts (Ausgabe von load_data)
-        sensor_id: Sensor-ID, nach der gefiltert werden soll (z. B. "S01")
-
-    Returns:
-        Neue Liste, die nur Einträge mit der angegebenen sensor_id enthält.
-        Leere Liste, wenn kein passender Eintrag gefunden wird.
-
-    Beispiel:
-        >>> daten = load_data("data/messdaten.csv")
-        >>> s01 = filter_by_sensor(daten, "S01")
-        >>> all(d["sensor_id"] == "S01" for d in s01)
-        True
-    """
-    # TODO: Implementierung hier einfügen
-    pass
+    return [entry for entry in data if entry["sensor_id"] == sensor_id]
 
 
 def generate_report(data: list[dict]) -> str:
-    """Erstellt einen Textbericht aus den Messdaten.
+    if not data:
+        return "========== SensorPy Bericht ==========\nKeine Daten vorhanden.\n======================================"
 
-    Der Bericht enthält:
-    - Gesamtanzahl der Messungen
-    - Durchschnitt, Min und Max für Temperatur, Luftfeuchtigkeit und CO2
-    - Anzahl der kritischen Temperaturmessungen (> 30 °C)
-    - Liste aller vorhandenen Sensor-IDs
+    total      = len(data)
+    sensor_ids = sorted({entry["sensor_id"] for entry in data})
 
-    Args:
-        data: Liste von Messdaten-dicts (Ausgabe von load_data)
+    temperatures = [entry["temperatur"]       for entry in data]
+    humidities   = [entry["luftfeuchtigkeit"] for entry in data]
+    co2_values   = [entry["co2"]              for entry in data]
 
-    Returns:
-        Formatierter mehrzeiliger String.
+    critical_temp_count = sum(1 for t in temperatures if t > 30)
 
-    Beispiel-Output (gekürzt):
-        ========== SensorPy Bericht ==========
-        Messungen total:       36
-        Sensoren:              S01, S02
+    def avg(values: list[float]) -> float:
+        return sum(values) / len(values)
 
-        -- Temperatur (°C) --
-        Durchschnitt:          22.48
-        Min / Max:             15.9 / 33.2
-        Kritische Werte (>30): 2
+    lines = [
+        "========== SensorPy Bericht ==========",
+        f"Messungen total:       {total}",
+        f"Sensoren:              {', '.join(sensor_ids)}",
+        "",
+        "-- Temperatur (°C) --",
+        f"Durchschnitt:          {avg(temperatures):.2f}",
+        f"Min / Max:             {min(temperatures)} / {max(temperatures)}",
+        f"Kritische Werte (>30): {critical_temp_count}",
+        "",
+        "-- Luftfeuchtigkeit (%) --",
+        f"Durchschnitt:          {avg(humidities):.2f}",
+        f"Min / Max:             {min(humidities)} / {max(humidities)}",
+        "",
+        "-- CO2 (ppm) --",
+        f"Durchschnitt:          {avg(co2_values):.2f}",
+        f"Min / Max:             {min(co2_values)} / {max(co2_values)}",
+        "======================================",
+    ]
 
-        -- Luftfeuchtigkeit (%) --
-        ...
-        ======================================
-    """
-    # TODO: Implementierung hier einfügen
-    pass
-
-Hallo Theo
+    return "\n".join(lines)
